@@ -13,9 +13,26 @@
       <div>-----------------------------------------------------------------------------</div>
 
       <div class="rep-container">
-        <div class="rep-item">
-          <div class="rep-number"> 123 </div>
-          <div class="rep-count">2</div>
+        <div class="rep-item" v-for="(sticker, key) in stickers" v-bind:key="key">
+
+          <div class="rep-group">
+            <h1 class="title" v-if="key == 0"> {{sticker.category }}  </h1>
+            <h1 class="title" v-if="key == 8"> {{sticker.category}} </h1>
+            <h1 class="title" v-if="key == 660"> {{sticker.category}} </h1>
+            <h1 class="title" v-if="key % 20 === 0 && key !== 660"> {{sticker.group}} </h1>
+          </div>
+
+          <div class="rep-det">
+            <div class="rep-number">
+              <span>{{key}}</span>
+              <div class="rep-count" v-if="sticker.count > 1"> + {{sticker.count - 1}} extra </div>
+            </div>
+
+            <div class="rep-det--buttons">
+              <a class="button is-large is-info is-outlined" v-on:click="downcount(sticker)"> - </a>
+              <a class="button is-large is-info is-outlined" v-on:click="upCount(sticker)"> + </a>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -26,17 +43,35 @@
 <script>
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue';
+import { stickers } from '../stickers.json';
 
 export default {
   name: 'home',
   components: {
     HelloWorld,
   },
+  data() {
+    return {
+      stickers: null,
+    };
+  },
   methods: {
     sendSticker(e) {
       console.log('add', e.target.value);
       e.target.value = '';
     },
+    upCount(sticker) {
+      // eslint-disable-next-line
+      sticker.count += 1;
+    },
+    downcount(sticker) {
+      // eslint-disable-next-line
+      if (sticker.count > 1) sticker.count -= 1;
+    },
+  },
+  mounted() {
+    this.stickers = stickers;
+    console.log(stickers);
   },
 };
 </script>
@@ -44,32 +79,44 @@ export default {
 
 .rep-container
   .rep-item
-    width 150px
+    width 100%
     height 150px
     border 1px solid black
-    border-radius 50%
-    margin 0 auto
-    position relative
-    .rep-number
-      width 75px
-      height 75px
-      border 1px solid black
-      border-radius 50%
-      background rgba(160, 160, 160, 0.47)
-      margin 36.5px auto
-      font-size 26px
-      line-height 2.85
-    .rep-count
-      position: absolute;
-      bottom: 21%;
-      right: 25%;
-      background-color: #f16060;
-      width: 25px;
-      text-align: center;
-      height: 25px;
-      border-radius: 50%;
-      color: white;
-      line-height: 26px;
+    margin 10px auto
+    text-align initial
+
+    // position relative
+    .rep-group
+      display block
+      height 40px
+    .rep-det
+      display flex
+      justify-content space-around
+      .rep-number
+        width 70%
+        height 75px
+        border 1px solid black
+        background rgba(160, 160, 160, 0.47)
+        // margin 36.5px auto
+        font-size 26px
+        line-height 2.85
+        display flex
+        justify-content flex-start
+        span
+          font-weight bold
+          margin 0 20px
+        .rep-count
+          // position: absolute;
+          background-color #f16060
+
+      &--buttons
+        display flex
+        width 15%
+        justify-content space-around
+        .button
+          width 60px
+          height 45px
+
 
 </style>
 
