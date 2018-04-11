@@ -9,7 +9,8 @@
 </template>
 
 <style lang="stylus">
-
+html, body
+  background #195faa
 #app
   font-family 'Avenir', Helvetica, Arial, sans-serif
   -webkit-font-smoothing antialiased
