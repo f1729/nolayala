@@ -5,7 +5,7 @@
                 <h1>Hola <span>jhonnybravo56</span></h1>
                 <h3>Una última pregunta ...<br>
                 ¿Deseas intercambiar repetidas?</h3>
-                <div>
+                <div class="wrap-allow">
                   <h3 class="allowed-intercambiar">Intercambiar repetidas </h3>
                   <input type="checkbox" name="">
                 </div>
@@ -87,4 +87,10 @@ h3
     text-align center
   .wrap-button
     padding-top 50px
+  .wrap-allow
+    h3, input
+      display inline-block
+    input
+      width 20px
+      margin-left 10px
 </style>

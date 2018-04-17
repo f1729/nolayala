@@ -9,18 +9,38 @@
       <input type="text" name="" placeholder="Buscar">
     </div>
     <div class="album-body">
-      <div class="album-body-detail">
-        <div class="album-category">
-          <p>Fifa</p>
-        </div>
+      <div class="album-body-detail" v-for="(sticker, key) in stickers" v-bind:key="key">
+        <template v-if="key == 0">
+          <div class="album-category">
+            <p>{{sticker.category }}</p>
+          </div>
+        </template>
+        <template v-if="key == 8">
+          <div class="album-category">
+            <p>{{sticker.category }}</p>
+          </div>
+        </template>
+        <template v-if="key == 660">
+          <div class="album-category">
+            <p>{{sticker.category}} </p>
+          </div>
+        </template>
+        <template v-if="key % 20 === 0 && key !== 660">
+          <div class="album-category">
+            <p>{{sticker.group}}</p>
+          </div>
+        </template>
         <div class="album-numbers">
           <div class="numbers">
-            <div class="num">000</div>
-            <div class="status">-</div>
-            <div class="repeats">+2 extra</div>
+            <div class="num">{{key}}</div>
+            <div class="status-null" v-bind:class="[sticker.count > 0 ? 'statusYala' : '' ]"></div>
+            <div class="repeats">
+              <span v-if="sticker.count > 1">+ {{sticker.count - 1}} extra</span>
+              <span v-else> &nbsp;</span>
+            </div>
             <div class="addorless">
-              <button class="less"><span>-</span></button>
-              <button class="add"><span>+</span></button>
+              <button class="less" v-on:click="downcount(sticker)"><span>-</span></button>
+              <button class="add" v-on:click="upCount(sticker)"><span>+</span></button>
             </div>
           </div>
         </div>
@@ -54,7 +74,7 @@ export default {
     },
     downcount(sticker) {
       // eslint-disable-next-line
-      if (sticker.count > 1) sticker.count -= 1;
+      if (sticker.count >= 1) sticker.count -= 1;
     },
   },
   mounted() {
@@ -107,15 +127,19 @@ export default {
           padding 10px 0
           border-bottom 1px solid #CCC
           min-height 50px
-          .num, .status, .repeats, .addorless
+          .num, .status, .status-null, .repeats, .addorless
             float left
           .num
             width 50px
-          .status
-            width 25px
-            background-color #157EFB
-            border-radius 30px
+          .status, .status-null
+            width 20px
+            height 25px
+            border-radius 2px
             margin-right 10px
+          .status-null
+            background-color #CCC
+          .statusYala
+            background-color #157EFB
           .repeats
             width 100px
             font-size 11px
